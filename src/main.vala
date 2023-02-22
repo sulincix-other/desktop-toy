@@ -12,6 +12,10 @@ public int main(string[] args){
     window.set_app_paintable(true);
     window.set_decorated(false);
     window.set_keep_above(true);
+    window.set_skip_pager_hint(true);
+    window.set_skip_taskbar_hint(true);
+    window.set_resizable(false);
+    window.stick();
     // set main widget
     set_widget(toy_create());
     window.add(main_widget);
