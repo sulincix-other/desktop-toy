@@ -16,10 +16,12 @@ public int main(string[] args){
     window.set_skip_taskbar_hint(true);
     window.set_accept_focus(false);
     window.set_resizable(false);
+    window.set_can_focus(false);
     window.stick();
     // set main widget
-    set_widget(toy_create());
+    main_widget = new toy();
     window.add(main_widget);
+    load_theme("amogus");
     window.show_all();
     // draw signal
     window.destroy.connect(Gtk.main_quit);
@@ -31,7 +33,7 @@ public int main(string[] args){
         return false;
     });
     // draw & move event
-    main_widget.motion_notify_event.connect((event) => {
+    main_widget.main.motion_notify_event.connect((event) => {
         if((event.state & Gdk.ModifierType.BUTTON1_MASK) == Gdk.ModifierType.BUTTON1_MASK){
             int w, h;
             window.get_size(out w, out h);
@@ -44,9 +46,4 @@ public int main(string[] args){
     return 0;
 }
 
-private Gtk.Widget main_widget = null;
-
-public void set_widget(Gtk.Widget widget){
-    main_widget = widget;
-    main_widget.show();
-}
+private toy main_widget = null;

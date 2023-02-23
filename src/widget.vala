@@ -1,12 +1,17 @@
-public Gtk.Widget toy_create(){
-    var main = new Gtk.Button();
-    string css_data = "";
-    style_init(css_data);
-    main.set_image(new Gtk.Image.from_file("./themes/amogus/idle.png"));
-    main.set_relief(Gtk.ReliefStyle.NONE);
-    main.set_can_focus(false);
-    main.clicked.connect((widget)=>{
-        stdout.printf("Clicked\n");
-    });
-    return main;
+public class toy : Gtk.Box {
+    public Gtk.Button main;
+    public string theme_path;
+    public toy(){
+        main = new Gtk.Button();
+        main.clicked.connect((widget)=>{
+            stdout.printf("Clicked\n");
+        });
+        add(main);
+        show_all();
+    }
+    public void load_animation(string name){
+        if(isfile(theme_path+"/"+name+".png")){
+            main.set_image(new Gtk.Image.from_file(theme_path+"/"+name+".png"));
+        }
+    }
 }
