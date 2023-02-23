@@ -14,6 +14,7 @@ public int main(string[] args){
     window.set_keep_above(true);
     window.set_skip_pager_hint(true);
     window.set_skip_taskbar_hint(true);
+    window.set_accept_focus(false);
     window.set_resizable(false);
     window.stick();
     // set main widget
@@ -31,7 +32,7 @@ public int main(string[] args){
     });
     // draw & move event
     main_widget.motion_notify_event.connect((event) => {
-        if((event.state & Gdk.ModifierType.BUTTON2_MASK) == Gdk.ModifierType.BUTTON2_MASK){
+        if((event.state & Gdk.ModifierType.BUTTON1_MASK) == Gdk.ModifierType.BUTTON1_MASK){
             int w, h;
             window.get_size(out w, out h);
             window.move((int)(event.x_root-(w/2)), (int)(event.y_root-(h/2)));
