@@ -3,6 +3,7 @@ public class toy : Gtk.Box {
     public Gtk.Image image;
     public string theme_path;
     public toy(){
+        anim_lock = false;
         main = new Gtk.Button();
         image = new Gtk.Image();
         main.set_image(image);
@@ -11,10 +12,9 @@ public class toy : Gtk.Box {
         });
         add(main);
         show_all();
-        anim_lock = false;
     }
     public void load_animation(string name){
-        if(anim_name != name){
+        if(anim_name != name | anim_name == null){
             anim_name = name;
             anim_i = 0;
             animate();
@@ -28,8 +28,9 @@ public class toy : Gtk.Box {
             return false;
         }
         anim_lock = true;
-        if(isfile(theme_path+"/"+name+".png")){
-            image.set_from_file(theme_path+"/"+name+".png");
+        stdout.printf(theme_path+"/"+anim_name+".png\n");
+        if(isfile(theme_path+"/"+anim_name+".png")){
+            image.set_from_file(theme_path+"/"+anim_name+".png");
         }else{
             image.set_from_file(theme_path+"/"+anim_name+"/"+anim_i.to_string()+".png");
             anim_i += 1;
