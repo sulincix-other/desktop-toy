@@ -17,3 +17,5 @@ public string readfile(string path){
 public bool isfile(string path){
     return GLib.FileUtils.test(path, GLib.FileTest.IS_REGULAR);
 }
+
+public extern string load_plugin(string path);

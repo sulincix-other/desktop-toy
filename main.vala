@@ -23,6 +23,7 @@ public int main(string[] args){
     window.add(main_widget);
     load_theme("amogus");
     window.show_all();
+    plugin_manager_init();
     // draw signal
     window.destroy.connect(Gtk.main_quit);
     window.draw.connect((widget, context)=>{
@@ -45,5 +46,3 @@ public int main(string[] args){
     Gtk.main();
     return 0;
 }
-
-private toy main_widget = null;

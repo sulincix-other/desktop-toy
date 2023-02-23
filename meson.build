@@ -5,5 +5,9 @@ dependencies = [
 ]
 
 sources = run_command('find', 'src','-type','f',check:true).stdout().strip().split('\n')
-
-executable('main', sources, dependencies: dependencies)
+libtoy = library('toy', sources, dependencies: dependencies, install:true)
+executable('main', 'main.vala' , dependencies: dependencies, link_with: libtoy, install:true)
+foreach plugin : run_command('find', 'plugin','-type','f',check:true).stdout().strip().split('\n')
+    name = plugin.split('/')[-1].split('.')[0]
+    library('toy_'+name, plugin, dependencies: dependencies, link_with: libtoy, install:true)
+endforeach

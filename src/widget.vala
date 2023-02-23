@@ -1,3 +1,4 @@
+public toy main_widget = null;
 public class toy : Gtk.Box {
     public Gtk.Button main;
     public Gtk.Image image;
