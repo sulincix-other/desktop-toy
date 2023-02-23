@@ -68,6 +68,5 @@ public void widget_init(){
     // set main widget
     main_widget = new toy();
     window.add(main_widget);
-    load_theme("amogus");
     window.show_all();
 }
