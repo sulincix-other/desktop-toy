@@ -1,4 +1,5 @@
 public toy main_widget = null;
+public Gtk.Window window = null;
 public class toy : Gtk.Box {
     public Gtk.Button main;
     public Gtk.Image image;
@@ -43,4 +44,30 @@ public class toy : Gtk.Box {
         anim_lock = false ;
         return false;
     }
+}
+
+public void widget_init(){
+    // window definition
+    window = new Gtk.Window();
+    // visual settings
+    var screen = window.get_screen();
+    var visual = screen.get_rgba_visual();
+    if(visual != null && screen.is_composited()){
+        window.set_visual(visual);
+    }
+    // feature definition
+    window.set_app_paintable(true);
+    window.set_decorated(false);
+    window.set_keep_above(true);
+    window.set_skip_pager_hint(true);
+    window.set_skip_taskbar_hint(true);
+    window.set_accept_focus(false);
+    window.set_resizable(false);
+    window.set_can_focus(false);
+    window.stick();
+    // set main widget
+    main_widget = new toy();
+    window.add(main_widget);
+    load_theme("amogus");
+    window.show_all();
 }

@@ -1,48 +1,7 @@
 public int main(string[] args){
     Gtk.init(ref args);
-    // window definition
-    var window = new Gtk.Window();
-    // visual settings
-    var screen = window.get_screen();
-    var visual = screen.get_rgba_visual();
-    if(visual != null && screen.is_composited()){
-        window.set_visual(visual);
-    }
-    // feature definition
-    window.set_app_paintable(true);
-    window.set_decorated(false);
-    window.set_keep_above(true);
-    window.set_skip_pager_hint(true);
-    window.set_skip_taskbar_hint(true);
-    window.set_accept_focus(false);
-    window.set_resizable(false);
-    window.set_can_focus(false);
-    window.stick();
-    // set main widget
-    main_widget = new toy();
-    window.add(main_widget);
-    load_theme("amogus");
-    window.show_all();
+    widget_init();
     plugin_manager_init();
-    // draw signal
-    window.destroy.connect(Gtk.main_quit);
-    window.draw.connect((widget, context)=>{
-        context.set_source_rgba(0, 0, 0, 0);
-        context.set_operator(Cairo.Operator.SOURCE);
-        context.paint();
-        context.set_operator(Cairo.Operator.OVER);
-        return false;
-    });
-    // draw & move event
-    main_widget.main.motion_notify_event.connect((event) => {
-        if((event.state & Gdk.ModifierType.BUTTON1_MASK) == Gdk.ModifierType.BUTTON1_MASK){
-            int w, h;
-            window.get_size(out w, out h);
-            window.move((int)(event.x_root-(w/2)), (int)(event.y_root-(h/2)));
-            return true;
-        }
-        return false;
-    });
     Gtk.main();
     return 0;
 }

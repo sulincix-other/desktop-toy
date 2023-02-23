@@ -18,4 +18,30 @@ public bool isfile(string path){
     return GLib.FileUtils.test(path, GLib.FileTest.IS_REGULAR);
 }
 
-public extern string load_plugin(string path);
+public string[] listdir(string path){
+    string[] ret = {};
+    string name;
+    try{
+        Dir dir = Dir.open(path+"/", 0);
+        while ((name = dir.read_name ()) != null) {
+            ret += name;
+        }
+
+    }catch(Error e){
+        stderr.printf(e.message);
+        return {};
+    }
+    return ret;
+}
+public bool startswith(string data,string f){
+    if(data.length < f.length){
+        return false;
+    }
+    return data[:f.length] == f;
+}
+public bool endswith(string data,string f){
+    if(data.length < f.length){
+        return false;
+    }
+    return data[data.length-f.length:] == f;
+}

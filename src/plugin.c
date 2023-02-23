@@ -1,6 +1,6 @@
 #include <dlfcn.h>
 
-void load_plugin(char* path){
+void load_plugin_c(char* path){
     void *handle;
     handle = dlopen(path, RTLD_LAZY);
     void (*plugin_func)();
