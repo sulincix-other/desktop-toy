@@ -14,7 +14,6 @@ public class toy : Gtk.Box {
         image = new Gtk.Image();
         main.set_image(image);
         menu_status = false;
-        menu.get_style_context().add_class("menu");
         int64 last_click = get_epoch();
         main.clicked.connect((widget)=>{
             if (get_epoch() - last_click < 300){
@@ -29,10 +28,12 @@ public class toy : Gtk.Box {
         menu = new Gtk.Box(Gtk.Orientation.VERTICAL,3);
         menu.add(new Gtk.Label("Amogus"));
         menu.show_all();
-        add(main);
+        var b = new Gtk.Box(Gtk.Orientation.HORIZONTAL,3);
+        b.add(main);
+        add(b);
         add(menu);
         show();
-        main.show_all();
+        b.show_all();
         hide_menu();
     }
     public void show_menu(){

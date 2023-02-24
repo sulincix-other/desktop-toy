@@ -10,7 +10,10 @@ public void plugin_init(){
     main_widget.main.motion_notify_event.connect((event) => {
         if((event.state & Gdk.ModifierType.BUTTON1_MASK) == Gdk.ModifierType.BUTTON1_MASK){
             int w, h;
-            window.get_size(out w, out h);
+            Gtk.Allocation alloc;
+            main_widget.main.get_allocation(out alloc);
+            w = alloc.width;
+            h = alloc.height;
             window.move((int)(event.x_root-(w/2)), (int)(event.y_root-(h/2)));
             return true;
         }
