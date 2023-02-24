@@ -17,7 +17,11 @@ public string readfile(string path){
 public bool isfile(string path){
     return GLib.FileUtils.test(path, GLib.FileTest.IS_REGULAR);
 }
-
+public int64 get_epoch(){
+    return GLib.get_real_time () / 1000 ;
+    GLib.DateTime now = new GLib.DateTime.now_local();
+    return (now.to_unix() * 1000) + now.get_microsecond();
+}
 public string[] listdir(string path){
     string[] ret = {};
     string name;

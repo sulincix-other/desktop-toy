@@ -5,20 +5,26 @@ public class toy : Gtk.Box {
     public Gtk.Image image;
     public Gtk.Box menu;
     public string theme_path;
+
+    private bool menu_status;
     public toy(){
         set_orientation(Gtk.Orientation.VERTICAL);
         anim_lock = false;
         main = new Gtk.Button();
         image = new Gtk.Image();
         main.set_image(image);
-        bool menu_status = false;
+        menu_status = false;
+        menu.get_style_context().add_class("menu");
+        int64 last_click = get_epoch();
         main.clicked.connect((widget)=>{
-            if(menu_status){
-                menu.show();
-            }else{
-                menu.hide();
+            if (get_epoch() - last_click < 300){
+                if(menu_status){
+                    hide_menu();
+                }else{
+                    show_menu();
+                }
             }
-            menu_status = ! menu_status ;
+            last_click = get_epoch();
         });
         menu = new Gtk.Box(Gtk.Orientation.VERTICAL,3);
         menu.add(new Gtk.Label("Amogus"));
@@ -27,7 +33,17 @@ public class toy : Gtk.Box {
         add(menu);
         show();
         main.show_all();
+        hide_menu();
     }
+    public void show_menu(){
+       menu.show();
+       menu_status = true;
+    }
+    public void hide_menu(){
+       menu.hide();
+       menu_status = false;
+    }
+
     public void load_animation(string name){
         if(anim_name != name | anim_name == null){
             anim_name = name;
@@ -81,5 +97,5 @@ public void widget_init(){
     // set main widget
     main_widget = new toy();
     window.add(main_widget);
-    window.show_all();
+    window.show();
 }
