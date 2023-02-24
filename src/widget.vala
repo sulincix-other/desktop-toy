@@ -3,17 +3,30 @@ public Gtk.Window window = null;
 public class toy : Gtk.Box {
     public Gtk.Button main;
     public Gtk.Image image;
+    public Gtk.Box menu;
     public string theme_path;
     public toy(){
+        set_orientation(Gtk.Orientation.VERTICAL);
         anim_lock = false;
         main = new Gtk.Button();
         image = new Gtk.Image();
         main.set_image(image);
+        bool menu_status = false;
         main.clicked.connect((widget)=>{
-            stdout.printf("Clicked\n");
+            if(menu_status){
+                menu.show();
+            }else{
+                menu.hide();
+            }
+            menu_status = ! menu_status ;
         });
+        menu = new Gtk.Box(Gtk.Orientation.VERTICAL,3);
+        menu.add(new Gtk.Label("Amogus"));
+        menu.show_all();
         add(main);
-        show_all();
+        add(menu);
+        show();
+        main.show_all();
     }
     public void load_animation(string name){
         if(anim_name != name | anim_name == null){
