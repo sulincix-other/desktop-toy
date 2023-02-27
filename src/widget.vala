@@ -26,7 +26,6 @@ public class toy : Gtk.Box {
             last_click = get_epoch();
         });
         menu = new Gtk.Box(Gtk.Orientation.VERTICAL,3);
-        menu.add(new Gtk.Label("Amogus"));
         menu.show_all();
         var b = new Gtk.Box(Gtk.Orientation.HORIZONTAL,3);
         b.add(main);
@@ -39,10 +38,13 @@ public class toy : Gtk.Box {
     public void show_menu(){
        menu.show();
        menu_status = true;
+       window.set_accept_focus(true);
+       window.present();
     }
     public void hide_menu(){
        menu.hide();
        menu_status = false;
+       window.set_accept_focus(false);
     }
 
     public void load_animation(string name){
@@ -91,7 +93,6 @@ public void widget_init(){
     window.set_keep_above(true);
     window.set_skip_pager_hint(true);
     window.set_skip_taskbar_hint(true);
-    window.set_accept_focus(false);
     window.set_resizable(false);
     window.set_can_focus(false);
     window.stick();

@@ -1,4 +1,6 @@
 public void plugin_init(){
     stdout.printf("Hello world\n");
-    //main_widget.load_animation("aaa");
+    var label = new Gtk.Label("Hello World");
+    main_widget.menu.pack_start(label,false,false);
+    label.show_all();
 }

@@ -19,8 +19,6 @@ public bool isfile(string path){
 }
 public int64 get_epoch(){
     return GLib.get_real_time () / 1000 ;
-    GLib.DateTime now = new GLib.DateTime.now_local();
-    return (now.to_unix() * 1000) + now.get_microsecond();
 }
 public string[] listdir(string path){
     string[] ret = {};
