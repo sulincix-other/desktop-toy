@@ -2,7 +2,11 @@ public void style_init(string css){
     try {
         Gtk.CssProvider css_provider = new Gtk.CssProvider ();
         string css_data = "
-        * {
+        window {
+            background: none;
+            border: none;
+        }
+        button {
             background: none;
             border: none;
         }
@@ -14,6 +18,8 @@ public void style_init(string css){
             Gtk.STYLE_PROVIDER_PRIORITY_USER
         );
         main_widget.menu.get_style_context().add_class("menu");
+        window.get_style_context().add_class("window");
+        main_widget.main.get_style_context().add_class("window");
     }catch{
         stderr.printf("Failed to load css\n");
     }
