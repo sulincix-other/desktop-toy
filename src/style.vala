@@ -1,7 +1,8 @@
 public void style_init(string css){
     try {
         Gtk.CssProvider css_provider = new Gtk.CssProvider ();
-        string css_data = "
+        Gtk.Settings.get_default().set("gtk-theme-name", "Adwaita");
+        string css_data = """
         window {
             background: none;
             border: none;
@@ -9,8 +10,9 @@ public void style_init(string css){
         button {
             background: none;
             border: none;
+            color: white;
         }
-        ";
+        """;
         css_provider.load_from_data(css_data+css);
         Gtk.StyleContext.add_provider_for_screen (
             Gdk.Screen.get_default (),

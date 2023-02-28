@@ -2,6 +2,7 @@ public void plugin_init(){
     var color_picker = new Gtk.Button();
     color_picker.set_label("#000000");
     color_picker.clicked.connect(()=>{
+        window.hide();
         Gtk.ColorChooserDialog dialog = new Gtk.ColorChooserDialog ("Color picker", window);
             if (dialog.run () == Gtk.ResponseType.OK) {
                 Gdk.RGBA color = dialog.rgba;
@@ -12,6 +13,7 @@ public void plugin_init(){
                 color_picker.set_label(col);
             }
         dialog.close ();
+        window.show();
     });
     main_widget.menu.pack_start(color_picker,false,false);
     color_picker.get_style_context().add_class("button");
