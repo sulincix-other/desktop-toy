@@ -4,10 +4,12 @@ public void style_init(string css){
         Gtk.Settings.get_default().set("gtk-theme-name", "Adwaita");
         string css_data = """
         window {
+            padding: 0px;
             background: none;
             border: none;
         }
         button {
+            padding: 0px;
             background: none;
             border: none;
             color: white;

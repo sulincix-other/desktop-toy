@@ -96,7 +96,7 @@ public class toy : Gtk.Box {
         stack.add_titled(page, label, label);
         Gtk.Button but = new Gtk.Button();
         but.set_label(label);
-        menu.pack_start(but);
+        menu.pack_start(but,false,false,0);
         but.get_style_context().add_class("button");
         page.hide();
         but.show();
