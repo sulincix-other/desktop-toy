@@ -19,9 +19,6 @@ public void style_init(string css){
             css_provider,
             Gtk.STYLE_PROVIDER_PRIORITY_USER
         );
-        main_widget.menu.get_style_context().add_class("menu");
-        window.get_style_context().add_class("window");
-        main_widget.main.get_style_context().add_class("window");
     }catch{
         stderr.printf("Failed to load css\n");
     }
@@ -37,7 +34,6 @@ public void load_theme(string name){
         path = "./themes/"+name;
     }
     style_init(readfile(path+"/style.css"));
-    main_widget.main.set_relief(Gtk.ReliefStyle.NONE);
     main_widget.theme_path = path;
     main_widget.load_animation("idle");
 }

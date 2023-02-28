@@ -2,9 +2,10 @@ public toy main_widget = null;
 public Gtk.Window window = null;
 public class toy : Gtk.Box {
     public Gtk.Button main;
-    public Gtk.Image image;
-    public Gtk.Box menu;
+    private Gtk.Image image;
+    private Gtk.Box menu;
     public string theme_path;
+    private Gtk.Stack stack;
 
     private bool menu_status;
     public toy(){
@@ -29,22 +30,31 @@ public class toy : Gtk.Box {
         menu.show_all();
         var b = new Gtk.Box(Gtk.Orientation.HORIZONTAL,3);
         b.add(main);
+        stack = new Gtk.Stack();
+        stack.set_vexpand(true);
+        stack.set_hexpand(true);
+        stack.add_titled(menu, "menu", "menu");
+        stack.get_style_context().add_class("menu");
+        main.get_style_context().add_class("window");
+        main.set_relief(Gtk.ReliefStyle.NONE);
         add(b);
-        add(menu);
+        add(stack);
         show();
         b.show_all();
         hide_menu();
     }
     public void show_menu(){
-       menu.show();
+       stack.show();
        menu_status = true;
        window.set_accept_focus(true);
        window.present();
     }
     public void hide_menu(){
-       menu.hide();
+       stack.hide();
        menu_status = false;
        window.set_accept_focus(false);
+       set_page("menu");
+
     }
 
     public void load_animation(string name){
@@ -76,7 +86,38 @@ public class toy : Gtk.Box {
         anim_lock = false ;
         return false;
     }
+
+    private string[] page_names;
+    public void add_feature(string label, Gtk.Widget page){
+        if(page_names == null){
+            page_names = {};
+        }
+        page_names += label;
+        stack.add_titled(page, label, label);
+        Gtk.Button but = new Gtk.Button();
+        but.set_label(label);
+        menu.pack_start(but);
+        but.get_style_context().add_class("button");
+        page.hide();
+        but.show();
+        but.set_relief(Gtk.ReliefStyle.NONE);
+        but.clicked.connect(()=>{
+            set_page(label);
+        });
+    }
+    private void hide_all_pages(){
+        stack.get_child_by_name("menu").hide();
+        foreach(string page in page_names){
+            stack.get_child_by_name(page).hide();
+        }
+    }
+    public void set_page(string name){
+        hide_all_pages();
+        stack.get_child_by_name(name).show();
+        stack.set_visible_child_name(name);
+    }
 }
+
 
 public void widget_init(){
     // window definition
@@ -99,5 +140,6 @@ public void widget_init(){
     // set main widget
     main_widget = new toy();
     window.add(main_widget);
+    window.get_style_context().add_class("window");
     window.show();
 }
