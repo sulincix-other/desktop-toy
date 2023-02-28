@@ -3,16 +3,22 @@ public void style_init(string css){
         Gtk.CssProvider css_provider = new Gtk.CssProvider ();
         Gtk.Settings.get_default().set("gtk-theme-name", "Adwaita");
         string css_data = """
-        window {
+        .window, decoration {
             padding: 0px;
+            margin: 0px;
             background: none;
             border: none;
         }
-        button {
+        .button {
             padding: 0px;
+            margin: 0px;
             background: none;
             border: none;
-            color: white;
+        }
+        .menu {
+            padding: 0px;
+            margin: 0px;
+            border: none;
         }
         """;
         css_provider.load_from_data(css_data+css);
