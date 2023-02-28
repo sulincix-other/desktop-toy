@@ -3,7 +3,6 @@ public void plugin_init(){
     Gtk.ScrolledWindow scrolled = new Gtk.ScrolledWindow (null, null);
     widget.set_monospace(true);
     scrolled.add (widget);
-    widget.get_style_context().add_class("transparent");
     scrolled.show_all();
     scrolled.set_size_request(400,400);
     main_widget.add_feature("Note", scrolled);
