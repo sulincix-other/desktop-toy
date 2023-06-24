@@ -20,6 +20,10 @@ public void style_init(string css){
             margin: 0px;
             border: none;
         }
+        .transparent {
+            background: none;
+
+        }
         """;
         css_provider.load_from_data(css_data+css);
         Gtk.StyleContext.add_provider_for_screen (

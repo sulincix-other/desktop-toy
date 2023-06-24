@@ -5,7 +5,9 @@ public class toy : Gtk.Box {
     private Gtk.Image image;
     private Gtk.Box menu;
     public string theme_path;
+    public ResizeButton resize;
     private Gtk.Stack stack;
+    private Gtk.Overlay overlay;
 
     private bool menu_status;
     public toy(){
@@ -37,20 +39,31 @@ public class toy : Gtk.Box {
         stack.get_style_context().add_class("menu");
         main.get_style_context().add_class("window");
         main.set_relief(Gtk.ReliefStyle.NONE);
-        add(b);
-        add(stack);
+        pack_start(b,false,false,0);
+        overlay = new Gtk.Overlay();
+        overlay.add_overlay(stack);
+        pack_start(overlay,true,true,0);
+        stack.show();
+        overlay.set_size_request(400,400);
+        resize = new ResizeButton();
+        resize.halign = Gtk.Align.END;
+        resize.valign = Gtk.Align.END;
+        stack.halign = Gtk.Align.FILL;
+        stack.valign = Gtk.Align.FILL;
+        resize.show();
+        overlay.add_overlay(resize);
         show();
         b.show_all();
         hide_menu();
     }
     public void show_menu(){
-       stack.show();
+       overlay.show();
        menu_status = true;
        window.set_accept_focus(true);
        window.present();
     }
     public void hide_menu(){
-       stack.hide();
+       overlay.hide();
        menu_status = false;
        window.set_accept_focus(false);
        set_page("menu");
@@ -119,6 +132,49 @@ public class toy : Gtk.Box {
 }
 
 
+public class ResizeButton : Gtk.Button {
+
+    public ResizeButton(){
+        Gtk.Image i = new Gtk.Image();
+        i.set_from_icon_name("gtk-ok",0);
+        i.set_pixel_size(4);
+        this.set_image(i);
+        this.set_can_focus(false);
+        this.get_style_context().add_class("transparent");
+        this.set_relief(Gtk.ReliefStyle.NONE);
+    }
+    public void define_resize_event(Gtk.Window window){
+     // move button event
+        int offset_x = -1;
+        int offset_y = -1;
+        this.motion_notify_event.connect((event) => {
+            if((event.state & Gdk.ModifierType.BUTTON1_MASK) == Gdk.ModifierType.BUTTON1_MASK){
+                int w, h;
+                Gtk.Allocation alloc;
+                window.get_allocation(out alloc);
+                w = alloc.width;
+                h = alloc.height;
+                int window_x = 0;
+                int window_y = 0;
+                window.get_position(out window_x, out window_y);
+                if(offset_x < 0){
+                    offset_x = (int)(w - event.x_root + window_x);
+                    offset_y = (int)(h - event.y_root + window_y);
+                }
+                window.move(window_x, window_y);
+                window.resize((int)(event.x_root + offset_x - window_x), (int)(event.y_root + offset_y - window_y));
+                return true;
+            }
+            return false;
+        });
+        this.button_release_event.connect((event)=>{
+             offset_x = -1;
+             offset_y = -1;
+             return false;
+        });
+    }
+}
+
 public void widget_init(){
     // window definition
     window = new Gtk.Window();
@@ -134,12 +190,13 @@ public void widget_init(){
     window.set_keep_above(true);
     window.set_skip_pager_hint(true);
     window.set_skip_taskbar_hint(true);
-    window.set_resizable(false);
+    window.set_resizable(true);
     window.set_can_focus(false);
     window.stick();
     // set main widget
     main_widget = new toy();
     window.add(main_widget);
     window.get_style_context().add_class("window");
+    main_widget.resize.define_resize_event(window);
     window.show();
 }
